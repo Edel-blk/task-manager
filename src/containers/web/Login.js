@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 import { Button, Form, FormField } from 'semantic-ui-react'
-import { login } from './api';
 import { WHITE } from '../../utils/constants';
+import { useGlobal } from '../../context/UseGlobal';
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
+
+  const { userLogin } = useGlobal();
 
   const handleChange = (e) => {
     setUserData({...userData, [e.target.name]: e.target.value })
   }
 
   const handleClick = async () => {
-    const res = await login(userData);
-    const data = await res.json();
-    console.log(data);
+    const succesfull = userLogin(userData);
+    if (succesfull) {
+      navigate('/dashboard')
+    }
     setUserData({});
   }
 

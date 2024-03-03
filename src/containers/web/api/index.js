@@ -1,7 +1,6 @@
 import { API_URL } from '../../../utils/constants';
 
 export const login = (userData) => {
-  console.log(userData);
   return (
     fetch(`${API_URL}/users/login`, {
       method: 'POST',
@@ -14,7 +13,6 @@ export const login = (userData) => {
 }
 
 export const signUp = (userData) => {
-  console.log(userData);
   return (
     fetch(`${API_URL}/users/sign-up`, {
       method: 'POST',

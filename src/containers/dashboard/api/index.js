@@ -12,9 +12,9 @@ export const createTaskRequest = (task) => {
   )
 }
 
-export const getAllTasks = () => {
+export const getAllTasks = (id) => {
   return (
-    fetch(`${API_URL}/tasks`, {
+    fetch(`${API_URL}/tasks/${id}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json'

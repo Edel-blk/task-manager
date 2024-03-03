@@ -13,7 +13,6 @@ export default function SignUp() {
   const handleClick = async () => {
     const res = await signUp(userData);
     const data = await res.json();
-    console.log(data);
     setUserData({});
   }
 

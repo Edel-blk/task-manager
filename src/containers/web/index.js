@@ -5,7 +5,7 @@ import SignUp from './SignUp'
 
 export default function Dashboard() {
   return (
-    <Layout isDashboard={false}>
+    <Layout>
       <Login />
 
       <SignUp />

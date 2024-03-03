@@ -1,13 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TaskCard from './TaskCard'
 import { Grid } from 'semantic-ui-react';
 import { TASKS_STATUS } from '../../utils/constants';
-import { useTasks } from './context/UseTasks';
+import { useGlobal } from '../../context/UseGlobal';
 
 const { Column } = Grid;
 
 export default function TaskList() {
-  const { tasks } = useTasks();
+  const { tasks, getTasks, userData } = useGlobal();
+
+  useEffect(() => {
+    const fetchData = async () => {
+        await getTasks(userData._id);
+    };
+
+    fetchData();
+  }, []);
 
   const pendingTasks = tasks.filter((task) => task.status === TASKS_STATUS.PENDING);
   const progressTasks = tasks.filter((task) => task.status === TASKS_STATUS.IN_PROGRESS);
@@ -16,7 +24,7 @@ export default function TaskList() {
 
   return (
     <div>
-      <Grid columns={3} divided >
+      <Grid columns={3} >
         <Column>
           {
             pendingTasks.map((task) => {

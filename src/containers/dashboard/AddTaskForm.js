@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormField, Button, Form } from 'semantic-ui-react'
-import { useTasks } from './context/UseTasks';
+import { useGlobal } from '../../context/UseGlobal';
+import { WHITE } from '../../utils/constants';
 
 function AddTaskForm() {
 
@@ -8,7 +9,8 @@ function AddTaskForm() {
     title: '',
     description: ''
   });
-  const { createTask } = useTasks();
+
+  const { createTask } = useGlobal();
 
   const handleChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value});
@@ -20,21 +22,23 @@ function AddTaskForm() {
   }
 
   return (
-    <Form>
-      <FormField>
-        <label>Title</label>
+    <div style={{ background: WHITE, margin: '100px 0px', padding: 40, boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px', borderRadius: 10 }}>
+      <Form>
+        <FormField>
+          <label>Title</label>
 
-        <input name='title' placeholder='title' onChange={handleChange} />
-      </FormField>
+          <input name='title' placeholder='title' onChange={handleChange} />
+        </FormField>
 
-      <FormField>
-        <label>Description</label>
+        <FormField>
+          <label>Description</label>
 
-        <input name='description' placeholder='description' onChange={handleChange} />
-      </FormField>
+          <input name='description' placeholder='description' onChange={handleChange} />
+        </FormField>
 
-      <Button type='submit' onClick={onClickSubmit} >Submit</Button>
-    </Form>
+        <Button type='submit' onClick={onClickSubmit} >Submit</Button>
+      </Form>
+    </div>
   );
 }
 
