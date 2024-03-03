@@ -1,11 +1,10 @@
-import './App.css';
+//import Dashboard from "./containers/dashboard";
+import Web from "./containers/web";
 
 function App() {
   return (
     <div className="App">
-     <h1>
-      Task Manager
-     </h1>
+      <Web />
     </div>
   );
 }
