@@ -1,7 +1,7 @@
-TASK MANAGER WEB APP
+# Task Manager(React)
 
-Intalacion de dependencias
-'npm install'
+## Instalación
 
-Correr proyecto local
-'npm run dev'
+```bash
+npm install
+npm run dev
