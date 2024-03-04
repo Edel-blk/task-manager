@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Form, FormField } from 'semantic-ui-react'
-import { WHITE } from '../../utils/constants';
 import { useGlobal } from '../../context/UseGlobal';
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-
   const { userLogin } = useGlobal();
 
   const handleChange = (e) => {
@@ -53,7 +51,13 @@ export default function Login() {
           />
         </FormField>
 
-        <Button onClick={handleClick} type='submit' >Login</Button>
+        <Button
+          style={{ width: '100%', marginTop: 20 }}
+          onClick={handleClick}
+          type='submit'
+        >
+          Login
+        </Button>
       </Form>
     </div>
   )

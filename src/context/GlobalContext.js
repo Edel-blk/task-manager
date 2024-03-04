@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState, } from "react";
 import { createTaskRequest, getAllTasks, deleteTaskRequest, updateTaskRequest } from "../containers/dashboard/api";
-import { login } from "../containers/web/api";
+import { login, signUp } from "../containers/web/api";
 import Loading from "../components/Loading";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
@@ -9,26 +9,29 @@ export const GlobalContext = createContext({
   task: [],
   userData: {},
   loadingUserData: false,
-  token: ''
+  editModal: false,
+  taskToEdit: {},
+  addModal: false,
 })
 
 export const Provider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [userData, setUserData] = useState({});
   const [loadingUserData, setLoadingUserData] = useState(false);
-  const [token, setToken] = useState('')
+  const [editModal, setEditModal] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState({});
+  const [addModal, setAddModal] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = Cookies.get('user');
-    const token = Cookies.get('token');
     if (!user) {
       navigate('/')
     } else {
       const formatUser = JSON.parse(user);
-      console.log(formatUser);
       setUserData(formatUser);
-      setToken(token);
+      navigate('/dashboard');
     }
   }, [])
 
@@ -39,7 +42,7 @@ export const Provider = ({ children }) => {
 
       setTimeout(async () => {
         console.log('Despues del timeout: ', userData);
-        const res = await getAllTasks(userData._id, token.token)
+        const res = await getAllTasks(userData._id)
         const data = await res.json();
         console.log('res: ',data);
         setTasks(data);
@@ -47,16 +50,16 @@ export const Provider = ({ children }) => {
       }, 2000);
     }
 
-    const res = await getAllTasks(userData._id, userData.token)
+    const res = await getAllTasks(userData._id)
     const data = await res.json();
     console.log('res: ',data);
     setTasks(data);
   }
 
   const createTask = async (task) => {
-    console.log('create task: ',userData, token);
+    console.log('create task: ',userData);
     const taskFormat = {...task, userID: userData._id}
-    const res = await createTaskRequest(taskFormat, token);
+    const res = await createTaskRequest(taskFormat);
     const data = await res.json();
     console.log('que pasa: ',data)
     setTasks([...tasks, data]);
@@ -73,18 +76,18 @@ export const Provider = ({ children }) => {
   const updateTask = async (id, task) => {
     const res = await updateTaskRequest(id, task);
     const data = await res.json();
-    console.log(data);
+    const newTasks = tasks.filter(actualTask => actualTask._id !== id);
+    setTasks([...newTasks, data]);
   }
 
-  const userLogin = async (userData) => {
+  const userLogin = async (props) => {
     setLoadingUserData(true);
     try {
-      const res = await login(userData);
+      const res = await login(props);
       if (res.status === 201) {
         const data = await res.json();
         setUserData(data);
         Cookies.set('user', JSON.stringify(data));
-        Cookies.set('token', data.token);
         setLoadingUserData(false);
         return true;
       }
@@ -94,8 +97,60 @@ export const Provider = ({ children }) => {
     }
   }
 
+  const userSignUp = async (props) => {
+    const res = await signUp(props);
+    const data = await res.json();
+    console.log('response: ',data);
+    setUserData(data);
+    navigate('/dashboard');
+    Cookies.set('user', JSON.stringify(data));
+  }
+
+  const userLogOut = () => {
+    setUserData({});
+    Cookies.remove('user');
+    navigate('/');
+  }
+
+  const setDataEditModal = (open, task) => {
+    console.log('Se clickea')
+    setEditModal(open);
+    setTaskToEdit(task);
+  }
+
+  const closeEditModal = () => {
+    setEditModal(false);
+  }
+
+  const setDataAddModal = (open) => {
+    setAddModal(open);
+  }
+
+  const closeAddModal = () => {
+    setAddModal(false);
+  }
+
+  const value = {
+    getTasks,
+    tasks,
+    createTask,
+    deleteTask,
+    updateTask,
+    userLogin,
+    userSignUp,
+    userLogOut,
+    userData,
+    setDataEditModal,
+    taskToEdit,
+    editModal,
+    closeEditModal,
+    setDataAddModal,
+    closeAddModal,
+    addModal
+  }
+
   return (
-    <GlobalContext.Provider value={{ getTasks, tasks, createTask, deleteTask, updateTask, userLogin, userData }}>
+    <GlobalContext.Provider value={value}>
       {loadingUserData ? <Loading /> : children}
     </GlobalContext.Provider>
   )

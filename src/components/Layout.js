@@ -1,9 +1,15 @@
 import React from 'react'
-import { Segment, SidebarPushable, SidebarPusher } from 'semantic-ui-react'
+import { Button, Segment, SidebarPushable, SidebarPusher } from 'semantic-ui-react'
 import { useGlobal } from '../context/UseGlobal'
 
-export default function Layout({ children, isDashboard }) {
-  const { userData } = useGlobal();
+export default function Layout({ children, isDashboard, logOut }) {
+  const { userData, userLogOut } = useGlobal();
+
+  const logOutButton = (
+    <Button onClick={userLogOut}>
+      Log Out
+    </Button>
+  )
 
   return (
     <div>
@@ -22,7 +28,7 @@ export default function Layout({ children, isDashboard }) {
                 </h2>
 
                 <div style={{ textAlign: 'center', fontFamily: 'system-ui', marginBottom: 15 }}>
-                  TASK MANAGER
+                  {logOut ? logOutButton : null}
                 </div>
             </Segment>
           }
@@ -30,7 +36,7 @@ export default function Layout({ children, isDashboard }) {
         </SidebarPusher>
       </SidebarPushable>
 
-      <div style={{ margin: '0 auto',  maxWidth: '100ch', padding: '1rem', lineHeight: 1.5, fontFamily: 'system-ui' }}>
+      <div style={{ margin: '0 auto',  maxWidth: '130ch', padding: '1rem', lineHeight: 1.5, fontFamily: 'system-ui' }}>
         {children}
       </div>
     </div>

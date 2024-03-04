@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { Button, Form, FormField, FormGroup, FormInput } from 'semantic-ui-react'
 import { signUp } from './api';
-import { WHITE } from '../../utils/constants';
+import { useGlobal } from '../../context/UseGlobal';
 
 export default function SignUp() {
   const [userData, setUserData] = useState({});
+  const { userSignUp } = useGlobal();
 
   const handleChange = (e) => {
     setUserData({...userData, [e.target.name]: e.target.value })
   }
 
   const handleClick = async () => {
-    const res = await signUp(userData);
-    const data = await res.json();
+    userSignUp(userData);
     setUserData({});
   }
 
@@ -43,7 +43,13 @@ export default function SignUp() {
           <input onChange={handleChange} placeholder='Password' name='password'/>
         </FormField>
 
-        <Button onClick={handleClick} type='submit' >Sign Up</Button>
+        <Button
+          onClick={handleClick}
+          type='submit'
+          style={{ width: '100%', marginTop: 20 }}
+        >
+          Sign Up
+        </Button>
       </Form>
     </div>
   )

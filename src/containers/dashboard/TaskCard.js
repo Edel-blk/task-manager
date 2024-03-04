@@ -1,17 +1,63 @@
-import React from 'react'
-import { Button, Icon } from 'semantic-ui-react';
+import React, { useState } from 'react'
+import { Icon, List, Popup } from 'semantic-ui-react';
 import { useGlobal } from '../../context/UseGlobal';
-import { BOX_SHADOW, WHITE } from '../../utils/constants';
+import { GRAY } from '../../utils/constants';
 
-export default function TaskCard({ task }) {
-  const { title, description, date, status, _id} = task;
+export default function TaskCard({ task, id }) {
+  const { title, description, _id } = task;
 
-  const { deleteTask, updateTask } = useGlobal();
+  const { deleteTask, setDataEditModal  } = useGlobal();
+  const [showButtons, setShowButtons] = useState(false);
+
+  const popUp = (
+    <Popup
+      position={'top left'}
+      hoverable
+      on="click"
+      trigger={
+        <div style={{ cursor: 'pointer', marginTop: -6 }}>
+          <Icon
+            style={{
+              marginTop: 10,
+              cursor: 'pointer',
+              color: 'gray'
+            }}
+            name='ellipsis vertical'
+          />
+        </div>
+      }
+    >
+        <Popup.Content>
+          <List selection>
+            <List.Item
+              onClick={() => setDataEditModal(true, task)}
+            >
+              <List.Content><Icon name='edit' />Edit Item</List.Content>
+            </List.Item>
+
+            <List.Item
+              onClick={
+                async () => {
+                  if (!window.confirm("Are you sure you want to delete this task?")) return;
+                  await deleteTask(_id);
+                }
+              }
+            >
+              <List.Content><Icon name='trash' />Remove Item</List.Content>
+            </List.Item>
+          </List>
+      </Popup.Content>
+      </Popup>
+  )
   
   return (
-    <div style={{ background: WHITE, margin: '10px 0px', padding: 10, boxShadow: BOX_SHADOW, borderRadius: 10 }}>
-      <div id={_id} style={{ display: 'flex', margin: 15 }}>
-        <div style={{ flex: 3 }}>
+    <div 
+      id={id}
+      onMouseEnter={() => setShowButtons(true)}
+      onMouseLeave={() => setShowButtons(false)}
+    >
+      <div style={{ background: GRAY, borderRadius: 5, padding: 10, margin: '10px 0px', display: 'flex', justifyContent: 'space-between' }}>
+        <div>
           <h3>
             {title}
           </h3>
@@ -19,34 +65,12 @@ export default function TaskCard({ task }) {
           <p>
             {description}
           </p>
-
-          <div style={{ color: 'gray' }}>
-            {date}
-          </div>
-
-          <div>
-            {status}
-          </div>
         </div>
 
-        <div style={{ flex: 1 }}>
-          <Button
-            onClick={async() => await updateTask(task._id, )}
-            >
-            <Icon color='grey' name='edit outline' />
-          </Button>
-
-          <Button 
-            onClick={
-              async () => {
-                if (!window.confirm("Are you sure you want to delete this task?")) return;
-                await deleteTask(_id);
-              }
-            }
-            >
-            <Icon color='grey' name='trash alternate outline' />
-          </Button>
-        </div>
+        {showButtons
+          ? popUp
+          : null
+        }
       </div>
     </div>
   )
