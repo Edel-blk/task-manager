@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Button, Form, FormField, FormGroup, FormInput } from 'semantic-ui-react'
-import { signUp } from './api';
 import { useGlobal } from '../../context/UseGlobal';
 
 export default function SignUp() {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+  });
   const { userSignUp } = useGlobal();
 
   const handleChange = (e) => {
@@ -13,7 +17,6 @@ export default function SignUp() {
 
   const handleClick = async () => {
     userSignUp(userData);
-    setUserData({});
   }
 
   return (
@@ -26,21 +29,44 @@ export default function SignUp() {
 
       <Form>
         <FormGroup widths='equal'>
-          <FormInput onChange={handleChange} value={userData.first_name ? userData.first_name : ''}fluid label='First name' placeholder='First name' name='first_name' />
+          <FormInput
+            onChange={handleChange}
+            value={userData.first_name ? userData.first_name : ''}
+            fluid 
+            label='First name'
+            placeholder='First name'
+            name='first_name'
+          />
 
-          <FormInput onChange={handleChange} fluid label='Last name' placeholder='Last name' name='last_name' />
+          <FormInput
+            onChange={handleChange}
+            value={userData.last_name ? userData.last_name : ''}
+            fluid label='Last name'
+            placeholder='Last name'
+            name='last_name'
+          />
         </FormGroup>
 
         <FormField>
           <label>Email</label>
           
-          <input onChange={handleChange} placeholder='Email' name='email' />
+          <input
+            onChange={handleChange}
+            value={userData.email ? userData.email : ''}
+            placeholder='Email'
+            name='email'
+          />
         </FormField>
 
         <FormField>
           <label>Password</label>
 
-          <input onChange={handleChange} placeholder='Password' name='password'/>
+          <input
+            onChange={handleChange}
+            value={userData.password ? userData.password : ''}
+            placeholder='Password'
+            name='password'
+          />
         </FormField>
 
         <Button

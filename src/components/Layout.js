@@ -24,7 +24,7 @@ export default function Layout({ children, isDashboard, logOut }) {
               </Segment>
             : <Segment basic style={{ display: 'flex', justifyContent: 'space-around' }}>
                 <h2 style={{ textAlign: 'center', fontFamily: 'system-ui', marginBottom: 15 }}>
-                  WELCOME {userData.first_name} {userData.last_name}
+                  WELCOME {userData.first_name.toUpperCase()} {userData.last_name.toUpperCase()}
                 </h2>
 
                 <div style={{ textAlign: 'center', fontFamily: 'system-ui', marginBottom: 15 }}>

@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState, } from "react";
 import { createTaskRequest, getAllTasks, deleteTaskRequest, updateTaskRequest } from "../containers/dashboard/api";
 import { login, signUp } from "../containers/web/api";
-import Loading from "../components/Loading";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -37,7 +36,21 @@ export const Provider = ({ children }) => {
       setUserData(formatUser);
       navigate('/dashboard');
     }
-  }, [])
+  }, []);
+
+  const handlingErrors = (data) => {
+    if (Array.isArray(data.message)) {
+      data.message.forEach((e) => {
+        toast.error(e, {
+          position: "bottom-right"
+        });
+      })
+    } else {
+      toast.error(data.message, {
+        position: "bottom-right"
+      });
+    }
+  }
 
   const getTasks = async () => {
 
@@ -47,7 +60,6 @@ export const Provider = ({ children }) => {
       setTimeout(async () => {
         const res = await getAllTasks(userData._id)
         const data = await res.json();
-        console.log('res: ',data);
         setTasks(data);
         setLoadingUserData(false);
       }, 2000);
@@ -55,7 +67,6 @@ export const Provider = ({ children }) => {
 
     const res = await getAllTasks(userData._id)
     const data = await res.json();
-    console.log('res: ',data);
     setTasks(data);
   }
 
@@ -86,36 +97,23 @@ export const Provider = ({ children }) => {
   }
 
   const updateTask = async (id, task) => {
-    toast.success("Task Updated Succesfully!!", {
-      position: "top-right"
-    });
-    try {
-      const res = await updateTaskRequest(id, task);
-      const data = await res.json();
+    const res = await updateTaskRequest(id, task);
+    const data = await res.json();
+    if (data.error) {
+      handlingErrors(data);
+    } else {
       const newTasks = tasks.filter(actualTask => actualTask._id !== id);
       setTasks([...newTasks, data]);
-    } catch (error) {
-      console.log(error);
-    }
+    };
   }
 
   const userLogin = async (props) => {
       setLoadingUserData(true);
       const res = await login(props);
       const data = await res.json();
+
       if (data.error) {
-        console.log(data);
-        if (Array.isArray(data.message)) {
-          data.message.forEach((e) => {
-            toast.error(e, {
-              position: "bottom-right"
-            });
-          })
-        } else {
-          toast.error(data.message, {
-            position: "bottom-right"
-          });
-        }
+        handlingErrors(data);
       } else {
         setUserData(data);
         Cookies.set('user', JSON.stringify(data));
@@ -130,20 +128,8 @@ export const Provider = ({ children }) => {
     const data = await res.json();
 
     if (data.error) {
-      console.log(data);
-      if (Array.isArray(data.message)) {
-        data.message.forEach((e) => {
-          toast.error(e, {
-            position: "bottom-right"
-          });
-        })
-      } else {
-        toast.error(data.message, {
-          position: "bottom-right"
-        });
-      }
+      handlingErrors(data);
     } else {
-      console.log('response: ',data);
       setUserData(data);
       navigate('/dashboard');
       Cookies.set('user', JSON.stringify(data));
@@ -157,7 +143,6 @@ export const Provider = ({ children }) => {
   }
 
   const setDataEditModal = (open, task) => {
-    console.log('Se clickea')
     setEditModal(open);
     setTaskToEdit(task);
   }

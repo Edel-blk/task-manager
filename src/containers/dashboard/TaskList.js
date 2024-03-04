@@ -38,7 +38,7 @@ export default function TaskList() {
             {
               pendingTasks.map((task, i) => {
                 return (
-                  <TaskCard task={task} id={`${i}-${task._id}`} />
+                  <TaskCard task={task} key={`pending-${i}`}/>
                   )
               })
             }
@@ -58,7 +58,7 @@ export default function TaskList() {
             {
               progressTasks.map((task, i) => {
                 return (
-                  <TaskCard task={task} id={`${i}-${task._id}`} />
+                  <TaskCard task={task} key={`progress-${i}`} />
                   )
               })
             }
@@ -78,7 +78,7 @@ export default function TaskList() {
             {
               doneTasks.map((task, i) => {
                 return (
-                  <TaskCard task={task} id={`${i}-${task._id}`} />
+                  <TaskCard task={task} key={`done-${i}`} />
                   )
               })
             }

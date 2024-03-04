@@ -4,7 +4,7 @@ import { useGlobal } from '../../context/UseGlobal';
 import { GRAY } from '../../utils/constants';
 
 export default function TaskCard({ task, id }) {
-  const { title, description, _id } = task;
+  const { title, description } = task;
 
   const { setDataDeleteModal, setDataEditModal  } = useGlobal();
   const [showButtons, setShowButtons] = useState(false);
@@ -47,7 +47,6 @@ export default function TaskCard({ task, id }) {
   
   return (
     <div 
-      id={id}
       onMouseEnter={() => setShowButtons(true)}
       onMouseLeave={() => setShowButtons(false)}
     >
