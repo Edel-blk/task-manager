@@ -55,7 +55,6 @@ export const Provider = ({ children }) => {
   }
 
   const getTasks = async () => {
-
     if(!userData._id) {
       setLoadingUserData(true);
 
