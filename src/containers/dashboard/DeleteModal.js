@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Form, FormField, Modal, ModalActions, ModalContent, ModalHeader } from 'semantic-ui-react'
-import { LABELS_STATUS } from '../../utils/constants';
+import { GREEN, LABELS_STATUS, RED, WHITE } from '../../utils/constants';
 import { useGlobal } from '../../context/UseGlobal';
 
 export default function DeleteModal({open, props, onClose}) {
@@ -16,7 +16,6 @@ export default function DeleteModal({open, props, onClose}) {
         size={'tiny'}
         open={open}
         onClose={onClose}
-        dimmer={'blurring'}
       >
         <ModalHeader style={{ wordWrap: 'break-word', overflow: 'hidden' }} >Are you sure you want to delete this task '{props.title}'?</ModalHeader>
         <ModalContent>
@@ -38,10 +37,10 @@ export default function DeleteModal({open, props, onClose}) {
         </ModalContent>
 
         <ModalActions>
-          <Button negative onClick={onClose}>
+          <Button style={{ background: RED, color: WHITE }} onClick={onClose}>
             No
           </Button>
-          <Button positive onClick={onClickSubmit}>
+          <Button style={{ background: GREEN, color: WHITE }} onClick={onClickSubmit}>
             Yes
           </Button>
         </ModalActions>

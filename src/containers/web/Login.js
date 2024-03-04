@@ -13,7 +13,6 @@ export default function Login() {
 
   const handleClick = async () => {
     userLogin(userData);
-    setUserData({});
   }
 
   return (

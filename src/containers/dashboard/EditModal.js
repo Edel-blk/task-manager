@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Dropdown, Form, FormField, Modal, ModalActions, ModalContent, ModalHeader } from 'semantic-ui-react'
-import { STATUS } from '../../utils/constants';
+import { GREEN, RED, STATUS, WHITE } from '../../utils/constants';
 import { useGlobal } from '../../context/UseGlobal';
 
 export default function EditModal({open, props, onClose}) {
@@ -30,7 +30,6 @@ export default function EditModal({open, props, onClose}) {
       }
     });
 
-    onClose();
     updateTask(props._id, newValues);
   }
 
@@ -39,7 +38,6 @@ export default function EditModal({open, props, onClose}) {
         size={'tiny'}
         open={open}
         onClose={onClose}
-        dimmer={'blurring'}
       >
         <ModalHeader style={{ wordWrap: 'break-word', overflow: 'hidden' }} >Edit Task '{props.title}'</ModalHeader>
         <ModalContent>
@@ -73,10 +71,10 @@ export default function EditModal({open, props, onClose}) {
         </ModalContent>
 
         <ModalActions>
-          <Button negative onClick={onClose}>
+          <Button style={{ background: RED, color: WHITE }} onClick={onClose}>
             No
           </Button>
-          <Button positive onClick={onClickSubmit}>
+          <Button style={{ background: GREEN, color: WHITE }} onClick={onClickSubmit}>
             Yes
           </Button>
         </ModalActions>

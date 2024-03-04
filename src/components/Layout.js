@@ -1,12 +1,13 @@
 import React from 'react'
 import { Button, Segment, SidebarPushable, SidebarPusher } from 'semantic-ui-react'
 import { useGlobal } from '../context/UseGlobal'
+import { RED, WHITE } from '../utils/constants';
 
 export default function Layout({ children, isDashboard, logOut }) {
   const { userData, userLogOut } = useGlobal();
 
   const logOutButton = (
-    <Button onClick={userLogOut}>
+    <Button style={{ background: RED, color: WHITE }} onClick={userLogOut}>
       Log Out
     </Button>
   )

@@ -24,7 +24,7 @@ export default function TaskList() {
 
   return (
     <div style={{ background: WHITE, margin: '45px 0px', padding: 40, boxShadow: BOX_SHADOW, borderRadius: 10 }}>
-      <Grid columns={3} >
+      <Grid columns={3} divided >
         <Column>
           <div>
             <Icon name='dot circle' style={{ color: '#574f4fb0' }}/>

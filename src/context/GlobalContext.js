@@ -77,12 +77,16 @@ export const Provider = ({ children }) => {
     const res = await createTaskRequest(taskFormat);
     const data = await res.json();
 
-    toast.success("Task Created Succesfully!", {
-      position: "top-right"
-    });
+    if (data.error) {
+      handlingErrors(data);
+    } else {
+      toast.success("Task Created Succesfully!", {
+        position: "top-right"
+      });
 
-    closeAddModal();
-    setTasks([...tasks, data]);
+      closeAddModal();
+      setTasks([...tasks, data]);
+    }
   }
 
   const deleteTask = async (id) => {
@@ -101,11 +105,13 @@ export const Provider = ({ children }) => {
   const updateTask = async (id, task) => {
     const res = await updateTaskRequest(id, task);
     const data = await res.json();
+
     if (data.error) {
       handlingErrors(data);
     } else {
       const newTasks = tasks.filter(actualTask => actualTask._id !== id);
       setTasks([...newTasks, data]);
+      setEditModal(false);
     }
   }
 

@@ -36,13 +36,13 @@ function AddTaskModal({open, onClose}) {
       <ModalContent image>
         <Form style={{ width: '100%' }}>
           <FormField>
-            <label>Title</label>
+            <label>Title *</label>
 
             <input value={task.title} name='title' placeholder='title' onChange={handleChange} />
           </FormField>
 
           <FormField>
-            <label>Description</label>
+            <label>Description *</label>
 
             <input value={task.description} name='description' placeholder='description' onChange={handleChange} />
           </FormField>
@@ -53,6 +53,10 @@ function AddTaskModal({open, onClose}) {
       <ModalActions>
         <Button disabled={disabledButton} style={{ background: GREEN, color: WHITE }} type='submit' onClick={onClickSubmit} >Create</Button>
       </ModalActions>
+
+      <div style={{ textAlign: 'right', padding: 10, marginRight: 10 }}>
+        * required
+      </div>
     </Modal>
   );
 }

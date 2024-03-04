@@ -37,3 +37,4 @@ export const BOX_SHADOW = 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0,
 export const ORANGE = '#ffa700cc';
 export const GRAY = '#80808042';
 export const GREEN = '#177b52b8';
+export const RED = '#bd4e4ecc';
