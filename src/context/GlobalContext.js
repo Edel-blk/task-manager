@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, } from "react";
 import { createTaskRequest, getAllTasks, deleteTaskRequest, updateTaskRequest } from "../containers/dashboard/api";
 import { login, signUp } from "../containers/web/api";
+import Loading from "../components/Loading";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,6 +20,7 @@ export const Provider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [userData, setUserData] = useState({});
   const [loadingUserData, setLoadingUserData] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState({});
   const [addModal, setAddModal] = useState(false);
@@ -104,23 +106,23 @@ export const Provider = ({ children }) => {
     } else {
       const newTasks = tasks.filter(actualTask => actualTask._id !== id);
       setTasks([...newTasks, data]);
-    };
+    }
   }
 
   const userLogin = async (props) => {
-      setLoadingUserData(true);
-      const res = await login(props);
-      const data = await res.json();
+    setLoadingLogin(true);
+    const res = await login(props);
+    const data = await res.json();
 
-      if (data.error) {
-        handlingErrors(data);
-      } else {
-        setUserData(data);
-        Cookies.set('user', JSON.stringify(data));
-        navigate('/dashboard');
-      }
+    if (data.error) {
+      handlingErrors(data);
+    } else {
+      setUserData(data);
+      Cookies.set('user', JSON.stringify(data));
+      navigate('/dashboard');
+    }
 
-      setLoadingUserData(false);
+    setLoadingLogin(false);
   }
 
   const userSignUp = async (props) => {
@@ -188,12 +190,13 @@ export const Provider = ({ children }) => {
     setDataDeleteModal,
     closeDeleteModal,
     deleteModal,
-    taskToDelete
+    taskToDelete,
+    loadingLogin
   }
 
   return (
     <GlobalContext.Provider value={value}>
-      {children}
+      {loadingUserData ? <Loading /> : children}
     </GlobalContext.Provider>
   )
 }

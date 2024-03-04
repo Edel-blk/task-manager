@@ -8,7 +8,17 @@ import AddTaskModal from './AddTaskModal'
 import DeleteModal from './DeleteModal'
 
 export default function Dashboard() {
-  const { editModal, taskToEdit, closeEditModal, addModal, closeAddModal, setDataAddModal, deleteModal, taskToDelete, closeDeleteModal } = useGlobal();
+  const {
+    editModal,
+    taskToEdit,
+    closeEditModal,
+    addModal,
+    closeAddModal,
+    setDataAddModal,
+    deleteModal,
+    taskToDelete,
+    closeDeleteModal
+  } = useGlobal();
 
   return (
     <Layout isDashboard logOut >
