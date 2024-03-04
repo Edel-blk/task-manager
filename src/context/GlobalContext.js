@@ -79,13 +79,14 @@ export const Provider = ({ children }) => {
 
     if (data.error) {
       handlingErrors(data);
+      return false;
     } else {
       toast.success("Task Created Succesfully!", {
         position: "top-right"
       });
-
       closeAddModal();
       setTasks([...tasks, data]);
+      return true;
     }
   }
 

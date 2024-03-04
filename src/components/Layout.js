@@ -23,7 +23,7 @@ export default function Layout({ children, isDashboard, logOut }) {
                 TASK MANAGER
               </h2>
               </Segment>
-            : <Segment basic style={{ display: 'flex', justifyContent: 'space-around' }}>
+            : <Segment basic style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
                 <h2 style={{ textAlign: 'center', fontFamily: 'system-ui', marginBottom: 15 }}>
                   WELCOME {userData.first_name} {userData.last_name}
                 </h2>

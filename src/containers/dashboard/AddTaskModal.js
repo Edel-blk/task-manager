@@ -20,7 +20,8 @@ function AddTaskModal({open, onClose}) {
 
   const onClickSubmit = async (e) => {
     e.preventDefault();
-    createTask(task);
+    const succesfully = await createTask(task);
+    if (succesfully) setTask(INITIAL_STATE);
   }
 
   const disabledButton = !task.title.length || !task.description.length;
