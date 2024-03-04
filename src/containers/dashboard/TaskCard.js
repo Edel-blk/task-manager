@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Icon } from 'semantic-ui-react';
 import { useGlobal } from '../../context/UseGlobal';
-import { WHITE } from '../../utils/constants';
+import { BOX_SHADOW, WHITE } from '../../utils/constants';
 
 export default function TaskCard({ task }) {
   const { title, description, date, status, _id} = task;
@@ -9,7 +9,7 @@ export default function TaskCard({ task }) {
   const { deleteTask, updateTask } = useGlobal();
   
   return (
-    <div style={{ background: WHITE, margin: '10px 0px', padding: 10, boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px', borderRadius: 10 }}>
+    <div style={{ background: WHITE, margin: '10px 0px', padding: 10, boxShadow: BOX_SHADOW, borderRadius: 10 }}>
       <div id={_id} style={{ display: 'flex', margin: 15 }}>
         <div style={{ flex: 3 }}>
           <h3>

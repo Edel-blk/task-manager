@@ -23,7 +23,7 @@ export default function Login() {
   }
 
   return (
-    <div style={{ background: WHITE, margin: '100px 0px', padding: 40, boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px', borderRadius: 10 }}>
+    <div>
       <div>
         <h2 style={{ textAlign: 'center', fontFamily: 'system-ui', marginBottom: 15 }}>
           LOGIN

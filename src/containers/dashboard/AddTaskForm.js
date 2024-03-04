@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormField, Button, Form } from 'semantic-ui-react'
 import { useGlobal } from '../../context/UseGlobal';
-import { WHITE } from '../../utils/constants';
+import { BOX_SHADOW, WHITE } from '../../utils/constants';
 
 function AddTaskForm() {
 
@@ -22,7 +22,7 @@ function AddTaskForm() {
   }
 
   return (
-    <div style={{ background: WHITE, margin: '100px 0px', padding: 40, boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px', borderRadius: 10 }}>
+    <div style={{ background: WHITE, margin: '45px 0px', padding: 40, boxShadow: BOX_SHADOW, borderRadius: 10 }}>
       <Form>
         <FormField>
           <label>Title</label>

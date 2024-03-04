@@ -1,14 +1,11 @@
 import React from 'react'
 import Layout from '../../components/Layout'
-import Login from './Login'
-import SignUp from './SignUp'
+import LandingPage from './LandingPage'
 
 export default function Dashboard() {
   return (
     <Layout>
-      <Login />
-
-      <SignUp />
+      <LandingPage />
     </Layout>
   )
 }
