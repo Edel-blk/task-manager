@@ -3,12 +3,14 @@ import { FormField, Button, Form, Modal, ModalHeader, ModalContent, ModalActions
 import { useGlobal } from '../../context/UseGlobal';
 import { GREEN, WHITE } from '../../utils/constants';
 
+const INITIAL_STATE = {
+  title: '',
+  description: ''
+}
+
 function AddTaskModal({open, onClose}) {
 
-  const [task, setTask] = useState({
-    title: '',
-    description: ''
-  });
+  const [task, setTask] = useState({title: '',  description: ''});
 
   const { createTask } = useGlobal();
 
@@ -19,8 +21,9 @@ function AddTaskModal({open, onClose}) {
   const onClickSubmit = async (e) => {
     e.preventDefault();
     createTask(task);
-    onClose();
   }
+
+  const disabledButton = !task.title.length || !task.description.length;
 
   return (
     <Modal
@@ -35,20 +38,20 @@ function AddTaskModal({open, onClose}) {
           <FormField>
             <label>Title</label>
 
-            <input name='title' placeholder='title' onChange={handleChange} />
+            <input value={task.title} name='title' placeholder='title' onChange={handleChange} />
           </FormField>
 
           <FormField>
             <label>Description</label>
 
-            <input name='description' placeholder='description' onChange={handleChange} />
+            <input value={task.description} name='description' placeholder='description' onChange={handleChange} />
           </FormField>
 
         </Form>
       </ModalContent>
 
       <ModalActions>
-        <Button style={{ background: GREEN, color: WHITE }} type='submit' onClick={onClickSubmit} >Create</Button>
+        <Button disabled={disabledButton} style={{ background: GREEN, color: WHITE }} type='submit' onClick={onClickSubmit} >Create</Button>
       </ModalActions>
     </Modal>
   );

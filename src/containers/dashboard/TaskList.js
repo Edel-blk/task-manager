@@ -28,7 +28,10 @@ export default function TaskList() {
         <Column>
           <div>
             <Icon name='dot circle' style={{ color: '#574f4fb0' }}/>
-            PENDING
+            
+            <span style={{ fontWeight: 'bold' }}>
+              PENDING
+            </span>
           </div>
 
           <div>
@@ -45,7 +48,10 @@ export default function TaskList() {
         <Column>
           <div>
             <Icon name='dot circle' style={{ color: ORANGE }} />
-            IN PROGRESS
+            
+            <span style={{ fontWeight: 'bold' }}>
+              IN PROGRESS
+            </span>
           </div>
 
           <div>
@@ -62,7 +68,10 @@ export default function TaskList() {
         <Column>
           <div>
             <Icon name='dot circle' style={{ color: GREEN }} />
-            DONE
+            
+            <span style={{ fontWeight: 'bold' }}>
+              DONE
+            </span>
           </div>
 
           <div>

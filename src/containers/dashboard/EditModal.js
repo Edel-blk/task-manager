@@ -41,7 +41,7 @@ export default function EditModal({open, props, onClose}) {
         onClose={onClose}
         dimmer={'blurring'}
       >
-        <ModalHeader>Edit Task '{props.title}'</ModalHeader>
+        <ModalHeader style={{ wordWrap: 'break-word', overflow: 'hidden' }} >Edit Task '{props.title}'</ModalHeader>
         <ModalContent>
           <Form>
             <FormField>

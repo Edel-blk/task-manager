@@ -6,6 +6,12 @@ export const TASKS_STATUS = {
   DONE: 'done',
 }
 
+export const LABELS_STATUS = {
+  pending: 'Pending',
+  in_progress: 'In Progress',
+  done: 'Done',
+}
+
 export const STATUS = [
   {
     key: 'pending',

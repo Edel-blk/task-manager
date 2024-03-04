@@ -3,6 +3,7 @@ import Web from "./containers/web";
 import { Route, Routes } from 'react-router-dom';
 import { Provider } from "./context/GlobalContext";
 import { ProtectedRoute } from "./components/ProtecctedRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           }
         />
       </Routes>
+
+      <ToastContainer />
     </Provider>
   );
 }

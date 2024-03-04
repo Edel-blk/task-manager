@@ -4,6 +4,7 @@ import { login, signUp } from "../containers/web/api";
 import Loading from "../components/Loading";
 import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const GlobalContext = createContext({
   task: [],
@@ -12,6 +13,7 @@ export const GlobalContext = createContext({
   editModal: false,
   taskToEdit: {},
   addModal: false,
+  deleteModal: false,
 })
 
 export const Provider = ({ children }) => {
@@ -21,6 +23,8 @@ export const Provider = ({ children }) => {
   const [editModal, setEditModal] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState({});
   const [addModal, setAddModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState({});
 
   const navigate = useNavigate();
 
@@ -41,7 +45,6 @@ export const Provider = ({ children }) => {
       setLoadingUserData(true);
 
       setTimeout(async () => {
-        console.log('Despues del timeout: ', userData);
         const res = await getAllTasks(userData._id)
         const data = await res.json();
         console.log('res: ',data);
@@ -57,11 +60,15 @@ export const Provider = ({ children }) => {
   }
 
   const createTask = async (task) => {
-    console.log('create task: ',userData);
     const taskFormat = {...task, userID: userData._id}
     const res = await createTaskRequest(taskFormat);
     const data = await res.json();
-    console.log('que pasa: ',data)
+
+    toast.success("Task Created Succesfully!", {
+      position: "top-right"
+    });
+
+    closeAddModal();
     setTasks([...tasks, data]);
   }
 
@@ -70,40 +77,77 @@ export const Provider = ({ children }) => {
     if (res.status === 204) {
       const newTasks = tasks.filter(task => task._id !== id);
       setTasks(newTasks);
+      setDeleteModal(false);
+
+      toast.success("Task Eliminated Succesfully!", {
+        position: "top-right"
+      });
     }
   }
 
   const updateTask = async (id, task) => {
-    const res = await updateTaskRequest(id, task);
-    const data = await res.json();
-    const newTasks = tasks.filter(actualTask => actualTask._id !== id);
-    setTasks([...newTasks, data]);
+    toast.success("Task Updated Succesfully!!", {
+      position: "top-right"
+    });
+    try {
+      const res = await updateTaskRequest(id, task);
+      const data = await res.json();
+      const newTasks = tasks.filter(actualTask => actualTask._id !== id);
+      setTasks([...newTasks, data]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const userLogin = async (props) => {
-    setLoadingUserData(true);
-    try {
+      setLoadingUserData(true);
       const res = await login(props);
-      if (res.status === 201) {
-        const data = await res.json();
+      const data = await res.json();
+      if (data.error) {
+        console.log(data);
+        if (Array.isArray(data.message)) {
+          data.message.forEach((e) => {
+            toast.error(e, {
+              position: "bottom-right"
+            });
+          })
+        } else {
+          toast.error(data.message, {
+            position: "bottom-right"
+          });
+        }
+      } else {
         setUserData(data);
         Cookies.set('user', JSON.stringify(data));
-        setLoadingUserData(false);
-        return true;
+        navigate('/dashboard');
       }
-    } catch (error) {
-      console.error('Error during login:', error);
+
       setLoadingUserData(false);
-    }
   }
 
   const userSignUp = async (props) => {
     const res = await signUp(props);
     const data = await res.json();
-    console.log('response: ',data);
-    setUserData(data);
-    navigate('/dashboard');
-    Cookies.set('user', JSON.stringify(data));
+
+    if (data.error) {
+      console.log(data);
+      if (Array.isArray(data.message)) {
+        data.message.forEach((e) => {
+          toast.error(e, {
+            position: "bottom-right"
+          });
+        })
+      } else {
+        toast.error(data.message, {
+          position: "bottom-right"
+        });
+      }
+    } else {
+      console.log('response: ',data);
+      setUserData(data);
+      navigate('/dashboard');
+      Cookies.set('user', JSON.stringify(data));
+    }
   }
 
   const userLogOut = () => {
@@ -130,6 +174,15 @@ export const Provider = ({ children }) => {
     setAddModal(false);
   }
 
+  const setDataDeleteModal = (open, task) => {
+    setDeleteModal(open);
+    setTaskToDelete(task);
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+  }
+
   const value = {
     getTasks,
     tasks,
@@ -146,12 +199,16 @@ export const Provider = ({ children }) => {
     closeEditModal,
     setDataAddModal,
     closeAddModal,
-    addModal
+    addModal,
+    setDataDeleteModal,
+    closeDeleteModal,
+    deleteModal,
+    taskToDelete
   }
 
   return (
     <GlobalContext.Provider value={value}>
-      {loadingUserData ? <Loading /> : children}
+      {children}
     </GlobalContext.Provider>
   )
 }

@@ -6,7 +6,7 @@ import { GRAY } from '../../utils/constants';
 export default function TaskCard({ task, id }) {
   const { title, description, _id } = task;
 
-  const { deleteTask, setDataEditModal  } = useGlobal();
+  const { setDataDeleteModal, setDataEditModal  } = useGlobal();
   const [showButtons, setShowButtons] = useState(false);
 
   const popUp = (
@@ -36,12 +36,7 @@ export default function TaskCard({ task, id }) {
             </List.Item>
 
             <List.Item
-              onClick={
-                async () => {
-                  if (!window.confirm("Are you sure you want to delete this task?")) return;
-                  await deleteTask(_id);
-                }
-              }
+              onClick={() => setDataDeleteModal(true, task)}
             >
               <List.Content><Icon name='trash' />Remove Item</List.Content>
             </List.Item>
@@ -56,8 +51,8 @@ export default function TaskCard({ task, id }) {
       onMouseEnter={() => setShowButtons(true)}
       onMouseLeave={() => setShowButtons(false)}
     >
-      <div style={{ background: GRAY, borderRadius: 5, padding: 10, margin: '10px 0px', display: 'flex', justifyContent: 'space-between' }}>
-        <div>
+      <div style={{ background: GRAY, borderRadius: 5, padding: 10, margin: '10px 0px', display: 'flex', justifyContent: 'space-between', wordWrap: 'break-word' }}>
+        <div style={{ wordWrap: 'break-word', overflow: 'hidden' }}>
           <h3>
             {title}
           </h3>

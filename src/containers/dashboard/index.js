@@ -5,9 +5,10 @@ import EditModal from './EditModal'
 import { useGlobal } from '../../context/UseGlobal'
 import { Icon } from 'semantic-ui-react'
 import AddTaskModal from './AddTaskModal'
+import DeleteModal from './DeleteModal'
 
 export default function Dashboard() {
-  const { editModal, taskToEdit, closeEditModal, addModal, closeAddModal, setDataAddModal } = useGlobal();
+  const { editModal, taskToEdit, closeEditModal, addModal, closeAddModal, setDataAddModal, deleteModal, taskToDelete, closeDeleteModal } = useGlobal();
 
   return (
     <Layout isDashboard logOut >
@@ -21,6 +22,7 @@ export default function Dashboard() {
 
       <AddTaskModal open={addModal} onClose={closeAddModal} />
       <EditModal open={editModal} props={taskToEdit} onClose={closeEditModal} />
+      <DeleteModal open={deleteModal} props={taskToDelete} onClose={closeDeleteModal}/>
     </Layout>
   )
 }
